@@ -5,13 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
              xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+             xmlns:wpfAppArm64="clr-namespace:WpfAppArm64"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid Margin="12,0,0,0" x:Name="web2Layout" Background="Black">
+    <!--<Grid Margin="12,0,0,0" x:Name="web2Layout" Background="Black">
         <wfi:WindowsFormsHost Name="windowsFormsHost" >
             <wf:Panel x:Name="hostPanel"/>
         </wfi:WindowsFormsHost>
-    </Grid>
+    </Grid>-->
+
+    <wpfAppArm64:MyWndHost x:Name="MyWnd"/>
 
 </UserControl>

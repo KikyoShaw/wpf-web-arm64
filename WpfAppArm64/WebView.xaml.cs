@@ -66,7 +66,7 @@ namespace WpfAppArm64
         {
             await Dispatcher.InvokeAsync(() =>
             {
-                if (this.FindName("windowsFormsHost") is WindowsFormsHost wfh && wfh.Handle != IntPtr.Zero)
+                if (this.FindName("MyWnd") is MyWndHost wfh && wfh.Handle != IntPtr.Zero)
                 {
                     m_hWndChild = wnd;
                     SetParent(m_hWndChild, wfh.Handle);
