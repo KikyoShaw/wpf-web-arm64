@@ -6,14 +6,25 @@ namespace WpfAppArm64
 {
     public class MyWndHost : HwndHost
     {
+        const int WS_CHILD = 0x40000000;
+        const int WS_VISIBLE = 0x10000000;
+        const int WS_CLIPCHILDREN = 0x02000000;
+        const int WS_CLIPSIBLINGS = 0x04000000;
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr CreateWindowEx(int exStyle, string className, string windowName, int style, int x, int y, int width, int height, IntPtr hwndParent, IntPtr hMenu, IntPtr hInstance, IntPtr pvParam);
+
+        [DllImport("user32.dll")]
+        internal static extern bool DestroyWindow(IntPtr hwnd);
+
+        public static readonly DependencyProperty HandleProperty = DependencyProperty.Register("Handle", typeof(IntPtr), typeof(MyWndHost), new PropertyMetadata(IntPtr.Zero));
+
         public new IntPtr Handle
         {
             get => (IntPtr)GetValue(HandleProperty);
             set => SetValue(HandleProperty, value);
         }
-        // Using a DependencyProperty as the backing store for Hwnd.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty HandleProperty =
-            DependencyProperty.Register("Handle", typeof(IntPtr), typeof(MyWndHost), new PropertyMetadata(IntPtr.Zero));
+
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             Handle = CreateWindowEx(
@@ -27,18 +38,10 @@ namespace WpfAppArm64
                 IntPtr.Zero);
             return new HandleRef(this, Handle);
         }
+
         protected override void DestroyWindowCore(HandleRef hwnd)
         {
             DestroyWindow(hwnd.Handle);
         }
-        const int WS_CHILD = 0x40000000;
-        const int WS_VISIBLE = 0x10000000;
-        const int WS_CLIPCHILDREN = 0x02000000;
-        const int WS_CLIPSIBLINGS = 0x04000000;
-
-        [DllImport("user32.dll")]
-        internal static extern IntPtr CreateWindowEx(int exStyle, string className, string windowName, int style, int x, int y, int width, int height, IntPtr hwndParent, IntPtr hMenu, IntPtr hInstance, IntPtr pvParam);
-        [DllImport("user32.dll")]
-        internal static extern bool DestroyWindow(IntPtr hwnd);
     }
 }

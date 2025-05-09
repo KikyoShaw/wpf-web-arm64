@@ -9,12 +9,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <!--<Grid Margin="12,0,0,0" x:Name="web2Layout" Background="Black">
-        <wfi:WindowsFormsHost Name="windowsFormsHost" >
-            <wf:Panel x:Name="hostPanel"/>
-        </wfi:WindowsFormsHost>
-    </Grid>-->
-
-    <wpfAppArm64:MyWndHost x:Name="MyWnd"/>
+    <Grid>
+        <!--WindowsFormsHost-->
+        <!--<Grid Margin="12,0,0,0" x:Name="web2Layout" Background="Black">
+            <wfi:WindowsFormsHost Name="windowsFormsHost" >
+                <wf:Panel x:Name="hostPanel"/>
+            </wfi:WindowsFormsHost>
+        </Grid>-->
+        <!--自定义HwndHost-->
+        <wpfAppArm64:MyWndHost x:Name="MyWnd"/>
+    </Grid>
 
 </UserControl>
