@@ -35,6 +35,14 @@ namespace WpfAppArm64
         private const int GWL_STYLE = -16;
         private const uint WS_CHILD = 0x40000000;
         private const uint WS_BORDER = 0x00800000;
+        public const uint WS_POPUP = 0x80000000;
+        public const uint WS_OVERLAPPED = 0x00000000;
+        public const uint WS_THICKFRAME = 0x00040000;
+        public const uint WS_MAXIMIZEBOX = 0x00010000;
+        public const uint WS_MINIMIZEBOX = 0x00020000;
+        public const uint WS_OVERLAPPEDWINDOW = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+        public const uint WS_CAPTION = 0x00C00000;     // WS_BORDER | WS_DLGFRAME
+        public const uint WS_SYSMENU = 0x00080000;
 
         public WebView()
         {
@@ -83,17 +91,31 @@ namespace WpfAppArm64
                     SetParent(m_hWndChild, wfh.Handle);
 
                     uint style = GetWindowLong(m_hWndChild, GWL_STYLE);
-                    style = (style & ~WS_BORDER) | WS_CHILD;
+                    //style &= ~(WS_POPUP | WS_OVERLAPPEDWINDOW | WS_THICKFRAME | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
+                    //style |= WS_CHILD;
+
+
+                    style &= ~(WS_POPUP);
+                    style &= ~(WS_OVERLAPPEDWINDOW);
+                    //20221201因设置子窗口属性会导致主面板无法响应输入事件，去掉该属性
+                    //style |= WS_CHILD;
+                    style &= ~WS_OVERLAPPED;
+                    style &= ~WS_THICKFRAME;
+                    style &= ~WS_MAXIMIZEBOX;
+                    style &= ~WS_MINIMIZEBOX;
+
+                    //uint style = GetWindowLong(m_hWndChild, GWL_STYLE);
+                    //style = (style & ~WS_BORDER) | WS_CHILD;
                     SetWindowLong(m_hWndChild, GWL_STYLE, style);
 
                     AdjustChildWindowSize();
 
-                    // 找到 Electron 渲染窗口并设置焦点
-                    var renderHwnd = FindRenderWindow(m_hWndChild);
-                    SetForegroundWindow(renderHwnd);
-                    SetFocus(renderHwnd);
+                    //// 找到 Electron 渲染窗口并设置焦点
+                    //var renderHwnd = FindRenderWindow(m_hWndChild);
+                    //SetForegroundWindow(renderHwnd);
+                    //SetFocus(renderHwnd);
 
-                    FocusElectronWindow();
+                    //FocusElectronWindow();
                 }
             });
         }
@@ -145,6 +167,8 @@ namespace WpfAppArm64
                     (int)(ActualHeight * dpiScale),
                     true
                 );
+
+                FocusElectronWindow();
             }
         }
 
